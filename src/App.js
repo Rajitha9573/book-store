@@ -1,23 +1,45 @@
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
+import React, {useState, useEffect} from 'react';
+
+   
 
 function App() {
+  const [data, setData] = useState();
+  
+ 
+  useEffect(() => {
+    async function getData(){
+    const response = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=harry+potter`
+    );
+    
+    console.log(response.data.items)
+    setData(response.data.items)
+    }
+     getData();
+  }, [])
+  
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>hello</h1>
+     
+      {data &&
+          data.map(( data ) => (
+            
+              // <h3>{data.volumeInfo.title}</h3>
+
+               <img className="style" src={data.volumeInfo.imageLinks?.thumbnail}/>
+               
+            
+          ))}
+    
+      {/* <button onClick={displayData}>hello</button>
+      {
+        <h1>{data.volumeInfo.title}</h1>
+      } */}
+          
     </div>
   );
 }
